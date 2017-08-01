@@ -1,6 +1,6 @@
 import expect from 'expect.js';
 import React from 'react';
-import { findDOMNode, render } from 'react-dom';
+import { findDOMNode, render, unmountComponentAtNode } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import $ from 'jquery';
 import async from 'async';
@@ -55,9 +55,9 @@ describe('rc-phone-keyboard', () => {
     document.body.insertBefore(div, document.body.firstChild);
   });
 
-  // afterEach(() => {
-  //   ReactDOM.unmountComponentAtNode(div);
-  // });
+  afterEach(() => {
+    unmountComponentAtNode(div);
+  });
 
   describe('check value and on change props', () => {
     it('init', (done) => {
