@@ -10347,7 +10347,7 @@ var Test = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { style: { width: 400, margin: '100px auto' } },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_rc_phone_keyboard__["a" /* default */], { value: '138-01' })
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_rc_phone_keyboard__["a" /* default */], null)
         )
       );
     }
