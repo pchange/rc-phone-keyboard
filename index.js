@@ -1,3 +1,9 @@
-import PhoneKeyboard from './src';
+import PhoneKeyboard, {
+  formatPhone,
+} from './src';
 
 export default PhoneKeyboard;
+
+export {
+  formatPhone,
+};

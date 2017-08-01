@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const formatPhone = (value) => {
+  const valueString = `${value}`;
+  const part1 = valueString.match(/^(\d{1,3})/);
+  const part2 = valueString.match(/^\d{3}(\d{1,4})/);
+  const part3 = valueString.match(/^\d{7}(\d{1,4})/);
+  let formatValue = '';
+  if (part1) {
+    formatValue = part1[1];
+    if (part2) {
+      formatValue = `${formatValue}-${part2[1]}`;
+      if (part3) {
+        formatValue = `${formatValue}-${part3[1]}`;
+      }
+    }
+  }
+  return formatValue;
+}
+
 class PhoneKeyboard extends Component {
   static propTypes = {
     onChange: PropTypes.func,
@@ -14,7 +32,7 @@ class PhoneKeyboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value || '',
+      value: formatPhone(props.value || ''),
     };
   }
 
@@ -26,22 +44,8 @@ class PhoneKeyboard extends Component {
     }
   }
 
-  formatPhone = (value) => {
-    const valueString = `${value}`;
-    const part1 = valueString.match(/^(\d{1,3})/);
-    const part2 = valueString.match(/^\d{3}(\d{1,4})/);
-    const part3 = valueString.match(/^\d{7}(\d{1,4})/);
-    let formatValue = '';
-    if (part1) {
-      formatValue = part1[1];
-      if (part2) {
-        formatValue = `${formatValue}-${part2[1]}`;
-        if (part3) {
-          formatValue = `${formatValue}-${part3[1]}`;
-        }
-      }
-    }
-    return formatValue;
+  formatPhone = (...args) => {
+    return formatPhone.apply(this, args);
   }
 
   onDelete = () => {
@@ -146,3 +150,7 @@ class PhoneKeyboard extends Component {
 }
 
 export default PhoneKeyboard;
+
+export {
+  formatPhone,
+}

@@ -5,7 +5,9 @@ import { Simulate } from 'react-dom/test-utils';
 import $ from 'jquery';
 import async from 'async';
 
-import PhoneKeyboard from '../index';
+import PhoneKeyboard, {
+  formatPhone,
+} from '../index';
 
 import '../assets/index.less';
 
@@ -18,7 +20,7 @@ const timeout = (ms) => {
 const expectPopupToHaveContent = (component, content) => {
   const prefixCls = component.props.prefixCls;
   const componentDomNode = findDOMNode(component);
-  expect($(componentDomNode).find(`.${prefixCls}-result`).html().trim()).to.be(content);
+  expect($(componentDomNode).find(`.${prefixCls}-result-value`).html().trim()).to.be(content);
 };
 
 const verifyContent = (component, content, done) => {
@@ -30,6 +32,20 @@ const verifyContent = (component, content, done) => {
   }], done);
 };
 
+describe('rc-phone-keyboard format value method', () => {
+  it('init 13800138000', (done) => {
+    expect(formatPhone(13800138000)).to.be('138-0013-8000');
+    done();
+  });
+  it('init 00000000000', (done) => {
+    expect(formatPhone('00000000000')).to.be('000-0000-0000');
+    done();
+  });
+  it('init 00000300000', (done) => {
+    expect(formatPhone('00000300000')).to.be('000-0030-0000');
+    done();
+  });
+});
 describe('rc-phone-keyboard', () => {
   let div;
   before(() => {
@@ -45,14 +61,15 @@ describe('rc-phone-keyboard', () => {
 
   describe('check value and on change props', () => {
     it('init', (done) => {
-      const numberKeyboard = render(<PhoneKeyboard className="test-phone-keyboard" />, div);
-      verifyContent(numberKeyboard, `${0}`, done);
+      const numberKeyboard = render(<PhoneKeyboard key="value_test_1" className="test-phone-keyboard" />, div);
+      verifyContent(numberKeyboard, '000-0000-0000', done);
     });
 
     it('props value', (done) => {
-      const value = parseInt(Math.random() * 10, 10);
-      const numberKeyboard = render(<PhoneKeyboard value={value} />, div);
-      verifyContent(numberKeyboard, `${value}`, done);
+      const value = `${parseInt(Math.random() * 10000000000, 10)}`;
+      const valueFormat = formatPhone(value);
+      const numberKeyboard = render(<PhoneKeyboard key="value_test_2" value={value} />, div);
+      verifyContent(numberKeyboard, valueFormat, done);
     });
 
     it('props onChange', (done) => {
@@ -62,7 +79,7 @@ describe('rc-phone-keyboard', () => {
         const pastOnChange = (value) => {
           pastValue = value;
         };
-        const numberKeyboard = render(<PhoneKeyboard onChange={pastOnChange} value={pastValue} />, div);
+        const numberKeyboard = render(<PhoneKeyboard key="value_test_3" onChange={pastOnChange} value={`${pastValue}`} />, div);
         const componentDomNode = findDOMNode(numberKeyboard);
         for (let clickTime = 8; clickTime -= 1;) {
           const row = parseInt(Math.random() * 4, 10);
@@ -75,18 +92,22 @@ describe('rc-phone-keyboard', () => {
           if (4 === row || 3 === col) {
             // 超出了键盘，不管
           }
-          else if (3 === row && 2 === col) {
-            expect(tdElem.length).to.be(0);
-          }
           else {
             Simulate.click(findDOMNode(tdElem[0]));
-            if (3 === row && 1 === col) {
-              countValue = parseInt(countValue / 10, 10);
+            if (3 === row && 2 === col) {
+              countValue = `${countValue}`.substring(0, countValue.length - 1);
+            }
+            else if (3 === row && 1 === col) {
+              countValue = `${countValue}0`;
+            }
+            else if (3 === row && 0 === col) {
+              // 这个没绑定点击动作。
             }
             else {
-              countValue = parseInt(`${countValue}${((row * 3) + (col + 1)) % 10}`, 10);
+              const value = ((row * 3) + (col + 1)) % 10;
+              countValue = `${countValue}${value}`;
             }
-            expect(countValue * 1).to.be(pastValue * 1);
+            expect(formatPhone(countValue)).to.be(`${pastValue}`);
           }
         }
       };
