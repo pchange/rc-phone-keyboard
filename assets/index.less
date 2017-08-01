@@ -1,0 +1,142 @@
+@phone-keyboard-prefix-cls: rc-phone-keyboard;
+
+//
+// phone-keyboard
+// --------------------------------------------------
+@font-size-base         : 14px;
+@line-height-base       : 1.5;
+@border-radius-base     : 6px;
+//** PhoneKeyboard text color
+@keyboard-font-size-base: @font-size-base;
+@phone-keyboard-font-weight: 700;
+@phone-keyboard-color: #3cd0a8;
+@phone-keyboard-light-color: #def4ee;
+@phone-keyboard-result: #000000;
+@phone-keyboard-result-padding-top: 10px;
+@phone-keyboard-keyboard-padding-top: 10px;
+@phone-keyboard-col-padding: 10px 0;
+
+// Base class
+.@{phone-keyboard-prefix-cls} {
+  box-sizing: content-box;
+  user-select: none;
+  color: @phone-keyboard-color;
+  font-size: @keyboard-font-size-base * 3;
+  font-weight: @phone-keyboard-font-weight;
+  text-align: center;
+  border: 2px solid @phone-keyboard-color;
+  border-radius: 4px;
+  :global {
+    svg {
+      fill: currentColor;
+    }
+  }
+
+  &-result {
+    padding: @phone-keyboard-result-padding-top @keyboard-font-size-base * 4 10px @keyboard-font-size-base * 4;
+    height: @keyboard-font-size-base * 4;
+    line-height: @keyboard-font-size-base * 4;
+    box-sizing: content-box;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  &-result-icon {
+    position: absolute;
+    top: @phone-keyboard-result-padding-top;
+    left: 0;
+    width: @keyboard-font-size-base * 4;
+    height: @keyboard-font-size-base * 4;
+    :global {
+      svg {
+        width: 49px;
+        height: 49px;
+      }
+    }
+  }
+
+  &-result-text {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    height: @keyboard-font-size-base * 4;
+    letter-spacing: 2px;
+    position: relative;
+  }
+
+
+  &-result-value {
+    &-shadow {
+      color: @phone-keyboard-light-color;
+    }
+  }
+
+  &-separate {
+    float: none;
+    height: 4px;
+    width: 100%;
+    border-radius: 4px;
+    background: @phone-keyboard-color;
+  }
+
+  &-keyboard {
+    padding: @phone-keyboard-keyboard-padding-top @keyboard-font-size-base * 4 10px @keyboard-font-size-base * 4;
+  }
+
+  &-table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  &-keyboard-row {
+
+  }
+
+  &-keyboard-col {
+    // padding: 5px 23px;
+    padding: @phone-keyboard-col-padding;
+  }
+
+  @keyboardColCircleWidth: @keyboard-font-size-base * 4;
+  @delete-sng-height: @keyboard-font-size-base * 2;
+  &-keyboard-delete-svg {
+    width: @delete-sng-height;
+    height: @delete-sng-height;
+    margin: 0 auto;
+  }
+
+  &-keyboard-col-circle {
+    width: @keyboardColCircleWidth;
+    height: @keyboardColCircleWidth;
+    line-height: @keyboardColCircleWidth;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto;
+    border: 3px solid @phone-keyboard-color;
+    box-sizing: content-box;
+    outline: none;
+    &:active {
+      color: darken(@phone-keyboard-color, 20%);
+      border-color: darken(@phone-keyboard-color, 20%);
+    }
+  }
+
+  &-keyboard-delete-col {
+    letter-spacing: 1px;
+  }
+}
+
+.keyboardDeleteIcon {
+  width: 38px;
+  height: 35px;
+}
+
+.keyboardDelete {
+  font-size: 22px;
+}
