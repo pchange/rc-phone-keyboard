@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const formatPhone = (value) => {
-  const valueString = `${value}`;
+  const valueString = `${value}`.replace(/[^\d]*/g, '');
   const part1 = valueString.match(/^(\d{1,3})/);
   const part2 = valueString.match(/^\d{3}(\d{1,4})/);
   const part3 = valueString.match(/^\d{7}(\d{1,4})/);

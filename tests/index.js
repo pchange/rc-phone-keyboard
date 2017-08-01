@@ -74,12 +74,12 @@ describe('rc-phone-keyboard', () => {
 
     it('props onChange', (done) => {
       const testClick = () => {
-        let pastValue = parseInt(Math.random() * 10, 10);
-        let countValue = pastValue;
+        let countValue = parseInt(Math.random() * 10000, 10);
+        let pastValue = formatPhone(countValue);
         const pastOnChange = (value) => {
           pastValue = value;
         };
-        const numberKeyboard = render(<PhoneKeyboard key="value_test_3" onChange={pastOnChange} value={`${pastValue}`} />, div);
+        const numberKeyboard = render(<PhoneKeyboard key="value_test_3" onChange={pastOnChange} value={pastValue} />, div);
         const componentDomNode = findDOMNode(numberKeyboard);
         for (let clickTime = 8; clickTime -= 1;) {
           const row = parseInt(Math.random() * 4, 10);
@@ -95,19 +95,19 @@ describe('rc-phone-keyboard', () => {
           else {
             Simulate.click(findDOMNode(tdElem[0]));
             if (3 === row && 2 === col) {
-              countValue = `${countValue}`.substring(0, countValue.length - 1);
+              countValue = `${countValue}`.substring(0, `${countValue}`.length - 1);
             }
             else if (3 === row && 1 === col) {
-              countValue = `${countValue}0`;
+              countValue = `${countValue}0`.substring(0, 11);
             }
             else if (3 === row && 0 === col) {
               // 这个没绑定点击动作。
             }
             else {
               const value = ((row * 3) + (col + 1)) % 10;
-              countValue = `${countValue}${value}`;
+              countValue = `${countValue}${value}`.substring(0, 11);
             }
-            expect(formatPhone(countValue)).to.be(`${pastValue}`);
+            expect(formatPhone(countValue)).to.be(pastValue);
           }
         }
       };
