@@ -9,7 +9,7 @@ class Test extends Component {
   render() {
     return (<div>
       <div style={{ width: 400, margin: '100px auto' }}>
-        <PhoneKeyboard value="138-01" />
+        <PhoneKeyboard />
       </div>
     </div>);
   }
